@@ -122,5 +122,5 @@ STATIC_URL = '/static/'
 
 SESSION_ENGINE =  'django.contrib.sessions.backends.cached_db'
 
-CURRENT_ID = None
+CURRENT_IDID = None
 CURRENT_INFO = None
