@@ -1,0 +1,47 @@
+<html>
+{% load static %}
+
+<head>
+    <script src="{% static 'javascripts/jquery-3.3.1.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'javascripts/bootstrap-3.3.7.min.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/bootstrap-3.3.7.min.css' %}">
+    <style type="text/css">
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#send-remote-page").click(function(){
+                var remoteUrl = $("#remote-page").val();
+                var text = $("#remote-server-data").val();
+                $.get(remoteUrl + "?data=" + text, function(){});
+            });
+            $("#send-remote-page-post").click(function(){
+                var remoteUrl = $("#remote-page").val();
+                var text = $("#remote-server-data").val();
+                $.post(remoteUrl, {data: text}, function(){});
+
+            });
+            $("#send-remote").click(function(){
+                var text = $("#remote-server-data").val();
+                $.get("/com?method=get&data=" + text, function(){});
+            });
+            $("#send-remote-post").click(function(){
+                var text = $("#remote-server-data").val();
+                $.post("/com", {method:'post',data:text}, function(){});
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>服务器间通信</h1>
+    <input class="form-control" id="remote-page" value="http://127.0.0.1:3000/com">
+    <button class="btn btn-success" id="send-remote-page">直接向对方服务器页面发送GET数据</button>
+    <button class="btn btn-danger" id="send-remote-page-post">直接向对方服务器页面发送POST数据</button>
+    <p></p>
+    <button class="btn btn-success" id="send-remote">通过服务器向对方服务器页面发送GET数据</button>
+    <button class="btn btn-danger" id="send-remote-post">通过服务器向对方服务器页面发送POST数据</button>
+    <p></p>
+    <input class="form-control" id="remote-server-data" value="from_django">
+    <p></p>
+    <h3 id="content"></h3>
+</body>
+</html>

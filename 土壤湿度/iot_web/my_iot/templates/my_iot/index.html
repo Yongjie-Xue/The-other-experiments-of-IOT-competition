@@ -1,0 +1,42 @@
+<html>
+{% load static %}
+
+<head>
+    <script src="{% static 'javascripts/jquery-3.3.1.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'javascripts/bootstrap-3.3.7.min.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/bootstrap-3.3.7.min.css' %}">
+    <style type="text/css">
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var i = 0;
+            var timer = null;
+            $(".btn-success").click(function(){
+                $.get('/data?get=on', function(){
+                    $("#counter").html('已开始');
+                    timer = setInterval(function(){
+                        $.get('/data?recv', function(data){
+                            var result = JSON.parse(data);
+                            $("#h").html("当前土壤：" + result['h']);
+                        });
+                    }, 1000);
+                })
+            });
+            $(".btn-danger").click(function(){
+                $.get('/data?get=off', function(){
+                    $("#counter").html('已关闭');
+                    clearInterval(timer);
+                })
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h1 id="h">当前土壤：{{ h }}</h1>
+    <button class="btn btn-success">开始检测</button>
+    <button class="btn btn-danger">停止检测</button>
+    <h3 id="counter"></h3>
+</body>
+
+</html>
